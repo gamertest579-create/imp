@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For My Valentine | My Favorite Smile</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #ff4d6d;
+        --secondary: #fff0f3;
+        --text: #590d22;
+        --gold: #ffd700;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #fff0f3 0%,
+          #ffe5ec 50%,
+          #ffd6e0 100%
+        );
+        font-family: "Poppins", sans-serif;
+        color: var(--text);
+        text-align: center;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Floating hearts background */
+      .heart {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        transform: rotate(45deg);
+        opacity: 0.3;
+        animation: float 15s infinite ease-in-out;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .heart:before,
+      .heart:after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+      }
+      .heart:before {
+        left: -10px;
+      }
+      .heart:after {
+        top: -10px;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(45deg);
+        }
+        50% {
+          transform: translateY(-30px) rotate(45deg);
+        }
+      }
+
+      header {
+        padding: 80px 20px 60px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 77, 109, 0.15),
+          rgba(255, 180, 193, 0.15)
+        );
+        position: relative;
+        z-index: 1;
+        animation: fadeIn 1s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-family: "Dancing Script", cursive;
+        font-size: 4rem;
+        color: var(--primary);
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(255, 77, 109, 0.2);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      header p {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        color: #8b2e4a;
+        font-weight: 300;
+      }
+
+      /* Music Players Grid */
+      .music-section {
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .music-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+      }
+
+      .player-container {
+        background: white;
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 15px 35px rgba(255, 77, 109, 0.25);
+        position: relative;
+        z-index: 1;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+
+      .player-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 45px rgba(255, 77, 109, 0.35);
+      }
+
+      .player-container p:first-of-type {
+        font-size: 1.3rem;
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      audio {
+        width: 100%;
+        margin-top: 15px;
+        border-radius: 10px;
+      }
+
+      /* Story Section */
+      .story-section {
+        padding: 60px 20px;
+        max-width: 850px;
+        margin: auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .story-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: var(--primary);
+        font-family: "Dancing Script", cursive;
+      }
+
+      .story-section p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin: 20px 0;
+      }
+
+      .code-dental {
+        font-family: "Courier New", monospace;
+        font-size: 1rem;
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin: 30px 0;
+        box-shadow: 0 10px 25px rgba(255, 77, 109, 0.15);
+        border-left: 4px solid var(--primary);
+        text-align: left;
+        transition: transform 0.3s;
+      }
+
+      .code-dental:hover {
+        transform: scale(1.02);
+      }
+
+      /* Gallery */
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 40px 20px;
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2);
+      }
+
+      .gallery img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        display: block;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.15);
+      }
+
+      .gallery-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(255, 77, 109, 0.9));
+        color: white;
+        padding: 20px;
+        transform: translateY(100%);
+        transition: transform 0.4s;
+        font-weight: 500;
+      }
+
+      .gallery-item:hover .gallery-overlay {
+        transform: translateY(0);
+      }
+
+      /* Lyrics Box */
+      .lyrics-container {
+        background: white;
+        margin: 50px auto;
+        padding: 40px;
+        width: 90%;
+        max-width: 650px;
+        max-height: 400px;
+        overflow-y: auto;
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 15px 35px rgba(255, 77, 109, 0.25);
+        text-align: left;
+        line-height: 2;
+        position: relative;
+        z-index: 1;
+      }
+
+      .lyrics-container h3 {
+        font-size: 1.8rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: "Dancing Script", cursive;
+      }
+
+      .lyrics-container::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .lyrics-container::-webkit-scrollbar-track {
+        background: #ffe5ec;
+        border-radius: 10px;
+      }
+
+      .lyrics-container::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 10px;
+      }
+
+      /* Valentine Week Surprise Section */
+      .surprise-section {
+        background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%);
+        padding: 100px 20px;
+        margin: 60px 0;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .surprise-section::before {
+        content: "❤️";
+        position: absolute;
+        font-size: 15rem;
+        opacity: 0.1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: heartbeat 3s ease-in-out infinite;
+      }
+
+      @keyframes heartbeat {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.1); }
+      }
+
+      .surprise-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .surprise-title {
+        font-family: "Dancing Script", cursive;
+        font-size: 3.5rem;
+        color: white;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .surprise-subtitle {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.95);
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+
+      .countdown-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+      }
+
+      .countdown-box {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 15px;
+        padding: 25px;
+        min-width: 100px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .countdown-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: white;
+        display: block;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .countdown-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 5px;
+      }
+
+      .gift-icon {
+        font-size: 4rem;
+        margin-top: 30px;
+        animation: bounce 2s ease-in-out infinite;
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+      }
+
+      /* The Big Question */
+      .question-box {
+        padding: 120px 20px;
+        background: white;
+        margin: 40px 0;
+        position: relative;
+        z-index: 1;
+      }
+
+      .question-box h2 {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 40px;
+        font-family: "Dancing Script", cursive;
+      }
+
+      .btn {
+        padding: 18px 50px;
+        font-size: 1.4rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin: 15px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      #yesBtn {
+        background: linear-gradient(135deg, #ff4d6d, #ff758f);
+        color: white;
+      }
+
+      #yesBtn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(255, 77, 109, 0.4);
+      }
+
+      #noBtn {
+        background-color: #ddd;
+        color: #666;
+        position: relative;
+      }
+
+      footer {
+        padding: 60px;
+        font-size: 0.9rem;
+        opacity: 0.7;
+        position: relative;
+        z-index: 1;
+      }
+
+      #successMessage h2 {
+        font-size: 2.5rem;
+        font-family: "Dancing Script", cursive;
+      }
+
+      /* Love Letter */
+      .letter-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .letter-container {
+        background: #fff9f0;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        padding: 50px 40px;
+        border-radius: 10px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        position: relative;
+        animation: slideUp 0.6s ease;
+        overflow-y: auto;
+        border: 2px solid #e6d5b8;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .letter-header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--primary);
+        padding-bottom: 20px;
+      }
+
+      .letter-header h2 {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      .letter-body {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.1rem;
+        line-height: 2;
+        color: #333;
+        text-align: left;
+        margin-bottom: 30px;
+      }
+
+      .letter-body p {
+        margin-bottom: 20px;
+      }
+
+      .letter-signature {
+        text-align: right;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.8rem;
+        color: var(--primary);
+        margin-top: 40px;
+      }
+
+      .close-letter {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2rem;
+        color: #999;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+
+      .close-letter:hover {
+        color: var(--primary);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.8rem;
+        }
+        .music-grid {
+          grid-template-columns: 1fr;
+        }
+        .question-box h2 {
+          font-size: 2.2rem;
+        }
+        .btn {
+          padding: 15px 35px;
+          font-size: 1.2rem;
+        }
+        .letter-container {
+          padding: 40px 25px;
+          width: 95%;
+        }
+        .letter-header h2 {
+          font-size: 2rem;
+        }
+        .letter-body {
+          font-size: 1rem;
+        }
+        .surprise-title {
+          font-size: 2.5rem;
+        }
+        .countdown-number {
+          font-size: 2rem;
+        }
+        .countdown-box {
+          min-width: 80px;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating hearts -->
+    <div class="heart" style="left: 10%; animation-delay: 0s"></div>
+    <div class="heart" style="left: 30%; animation-delay: 2s"></div>
+    <div class="heart" style="left: 50%; animation-delay: 4s"></div>
+    <div class="heart" style="left: 70%; animation-delay: 1s"></div>
+    <div class="heart" style="left: 90%; animation-delay: 3s"></div>
+
+    <header>
+      <h1>Hey Gorgeous...</h1>
+      <p>A little something I built for you ❤️</p>
+    </header>
+
+    <!-- Music Players Section -->
+    <section class="music-section">
+      <div class="music-grid">
+        <div class="player-container">
+          <p>🎵 Samyog ko Diary</p>
+          <p style="font-size: 0.9rem; color: #8b2e4a">Our song ❤️</p>
+          <audio controls>
+            <source src="./songs/1ecbadcfd70d437cafc86757be4209f5.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        
+        <div class="player-container">
+          <p>🎵 Bacha Vayo</p>
+          <p style="font-size: 0.9rem; color: #8b2e4a">Makes me think of you 💕</p>
+          <audio controls>
+            <source src="./songs/10ecc8a4afd845439d2cb6c48bf45887.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        
+        <div class="player-container">
+          <p>🎵 Maya Bhandeu Na</p>
+          <p style="font-size: 0.9rem; color: #8b2e4a">Our vibe 💖</p>
+          <audio controls>
+            <source src="./songs/00a1b87024e844c4a40c9eeb1545ecbe.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="story-section">
+      <h2>From Lockdown to Forever ❤️</h2>
+      <p>
+        From those endless texts during Corona to the first time I gave you my
+        diary... we've come a long way.
+      </p>
+
+      <div class="code-dental">
+        // While you are busy fixing smiles in the Dental lab,<br />
+        // I am here writing code to make you smile.<br />
+        if (distance != 0) { love++; respect++; }
+      </div>
+
+      <p>Distance is just a number when two hearts are as connected as ours.</p>
+    </section>
+
+    <!-- Photo Gallery -->
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="./img/Snapchat-1307225634.jpg" alt="Memory 1" />
+        <div class="gallery-overlay">Our first moment ❤️</div>
+      </div>
+      <div class="gallery-item">
+        <img src="./img/FB_IMG_1766738497104.jpg" alt="Memory 2" />
+        <div class="gallery-overlay">Unforgettable memories 💕</div>
+      </div>
+      <div class="gallery-item">
+        <img src="./img/VideoCapture_20251227-190611.jpg" alt="Memory 3" />
+        <div class="gallery-overlay">Forever together 💑</div>
+      </div>
+    </div>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="./img/1.jpg" alt="Memory 1" />
+        <div class="gallery-overlay">Making memories together 🌹</div>
+      </div>
+      <div class="gallery-item">
+        <img src="./img/2.jpg" alt="Memory 2" />
+        <div class="gallery-overlay">Every moment with you ✨</div>
+      </div>
+      <div class="gallery-item">
+        <img src="./img/3.jpg" alt="Memory 3" />
+        <div class="gallery-overlay">My favorite person 💖</div>
+      </div>
+    </div>
+
+    <!-- Lyrics: Samyog ko Diary -->
+    <div class="lyrics-container">
+      <h3>Samyog ko Diary ♫</h3>
+      <p>
+        Samjhinchau tyo bela, Corona-ko lockdown<br />
+        Sunsan thiyo sadak, sunsan thiyo yo town<br />
+        Tara hamro kura, kahilyai pani rokiyena<br />
+        Screen-ko tyo jhyal bata, maya kahilyai thakiyena<br />
+        Ghan-tau ko video call, hamro mitha gaff gaff<br />
+        Tyo aptharo samay ma, timi nai thiyou mero saath
+        <br /><br />
+        Kilometer-ko dooree le, ke nai pharak parcha ra?<br />
+        Timro muskan le mero, sansar ujyalo parcha ni<br />
+        Dental-ko kitab ra, Computer-ko code beech<br />
+        Hamro maya-ko euta, chuttai sansar cha ni<br />
+        Maya cha, samman cha, ani timro dherai khyal cha<br />
+        Hera na sanu, hamro prem kati vishal cha
+        <br /><br />
+        Pahilo bhet ko tyo dhadkan, ajhai taja cha mann ma<br />
+        Diary thamaunda ko tyo dar, ra khusi chin-bhar ma<br />
+        Maile aaphna bhawana, tyo pana ma koreko thie<br />
+        Timilai sumpana lai, kati yug parkheko thie<br />
+        Tyo diary matra hoina, mero bishwas thiyo<br />
+        Hamro sambandha ko tyo, sundar, suruvat thiyo
+        <br /><br />
+        Harek patak bhetna lai, sambhav hudaina<br />
+        Tadha bhaye ni yo mann, kahilyai rudaina<br />
+        Timi dant ko upachar ma, ma software ko sapana ma<br />
+        Samay thorai hola, tara kami chaina chahana ma<br />
+        Mahinau nadekhda pani, yo nata jhan balio cha<br />
+        Mero mutu ko bhitri kuna, timrai naam le khali cha
+        <br /><br />
+        Timi mero gaurav hau, mero sansar hau<br />
+        Sadhai timilai, samman gari rahanechu<br />
+        Duri jatisukai hos, ma timrai hunechu<br />
+        (Timi mero hau... sadhai timrai hunechu)
+      </p>
+    </div>
+
+    <!-- Lyrics: Bacha Vayo -->
+    <div class="lyrics-container">
+      <h3>Bacha Vayo ♫</h3>
+      <p>
+        Timro yaad aayo, yo mann bacha vayo<br />
+        Kasari samjhanu, timi bina yo jiwan<br />
+        Har pal ma timro kami, yo dil le mehsus garyo<br />
+        Timi bhanda ramro, koi pani bhettina
+        <br /><br />
+        Bacha vayo, bacha vayo<br />
+        Timro maya ma, yo jiwan bacha vayo<br />
+        Harek din timi sangai, sapana dekhna payo<br />
+        Yo mutu timrai ho, sadhai timrai rahyo
+        <br /><br />
+        Samjhana haru le, ghereko cha yo mann<br />
+        Timi nabhaye, yo sansar sunsan<br />
+        Door hudaima, naata tod hudaina<br />
+        Timro lagi yo hridaya, kabhi thaki jaadaina
+        <br /><br />
+        Bacha vayo, bacha vayo<br />
+        Timro maya ma, yo jiwan bacha vayo<br />
+        Aankhama sapana, timrai mukhko chhaya<br />
+        Sadhai timilai nai, yo dil le chaya
+      </p>
+    </div>
+
+    <!-- Lyrics: Maya Bhandeu Na -->
+    <div class="lyrics-container">
+      <h3>Maya Bhandeu Na ♫</h3>
+      <p>
+        Maya bhandeu na, yo kasto maya ho<br />
+        Timro bina jiwan, kasto sunsan chha yo<br />
+        Sapana ma aau, haat samauna deu<br />
+        Timi mero hau, yahi bhanna deu
+        <br /><br />
+        Har pal timro yaad, sataudai rahanchha<br />
+        Yo mutu timrai naam, gunjaudai rahanchha<br />
+        Kilometer tadha bhayeni, maya kami hudaina<br />
+        Timro haat ko sparsha, kabhi birsidaina
+        <br /><br />
+        Maya bhandeu na, timi mero saath chau<br />
+        Jaha sukai jau, timi mero praath chau<br />
+        Aansu aaye pani, khusi le hasaunchha<br />
+        Timro eklo yaad, sabai dukkha mitaunchha
+        <br /><br />
+        Jiwan ko harek pal, timi sangai bitauna cha<br />
+        Sadhai timrai haat, samayi hidna cha<br />
+        Maya bhandeu na, timi mero ho<br />
+        Yo prem kahani, hamro naya mo
+      </p>
+    </div>
+
+    <!-- Valentine Week Surprise Section -->
+    <section class="surprise-section">
+      <div class="surprise-content">
+        <h2 class="surprise-title">Valentine Week Special 💝</h2>
+        <p class="surprise-subtitle">
+          Counting down to our special week...
+        </p>
+
+        <div class="countdown-container">
+          <div class="countdown-box">
+            <span class="countdown-number" id="days">0</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="hours">00</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="minutes">00</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="seconds">00</span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+
+        <div class="gift-icon">🎁</div>
+      </div>
+    </section>
+
+    <!-- The Proposal -->
+    <div class="question-box" id="questionArea">
+      <h2>Will you be my Valentine? 🌹</h2>
+      <button class="btn" id="yesBtn" onclick="celebrate()">YES!</button>
+      <button class="btn" id="noBtn" onmouseover="moveButton()">NO</button>
+    </div>
+
+    <footer id="successMessage" style="display: none">
+      <h2 style="color: var(--primary)">
+        Not Just This Valentine I want you to be mine valentine forever and ever❤️
+      </h2>
+    </footer>
+
+    <!-- Love Letter Overlay -->
+    <div class="letter-overlay" id="letterOverlay">
+      <div class="letter-container">
+        <span class="close-letter" onclick="closeLetter()">×</span>
+        <div class="letter-header">
+          <h2>To My Beautiful Valentine 💕</h2>
+          <p style="font-size: 0.9rem; color: #666">A message from my heart</p>
+        </div>
+        <div class="letter-body">
+          <p>My dearest siku,</p>
+
+          <p>
+            Tyo lockdown ka din-haru ma hamile kura garna thale dekhi nai, malai
+            thaha thiyo ki timi mero lagi dherai bishesh chau. Harek raat-bhari
+            ko tee mitha gaff-gaff, ani screen-ko tyo jhyal bata timile diyeko
+            tyo muskan—mero lagi tyo pura sansar thiyo.
+          </p>
+
+          <p>
+            Timro dental lab ma timile gareko tyo kada mehenat, ani timro kaam
+            prati ko tyo lagaav dekhda malai harek din prerana milcha. Timi
+            aruko muskan thik garna व्यस्त chau, tara timile ta mero mutu pahile
+            nai thik garisakyau. ❤️
+          </p>
+
+          <p>
+            Dooree kahilyai sajilo bhayena, tara timro sath huda yo sabai thik
+            lagcha. Hamro beech-ko harek kilometer le timro lagi mero maya jhan
+            badhaudai gairaheko cha. Timi mero sabai bhanda ramro sathi, mero
+            sathi, ani mero sabai kura bhanna milne mero sabai bhanda pyaro
+            manche hau.
+          </p>
+
+          <p>
+            Maile yo sano website timrai lagi banayeko hu, kinaki kebal sabda-le
+            matra timi mero lagi kati mahatvapurna chau bhanera bhanna
+            sakidaina. Timi sansar-ka sabai maya,khusi, ani sundar pal-haru
+            pauna yogya chau.
+          </p>
+
+          <p>
+            Timi jasto chau, testai bhayeko ma dherai dhanyabad. Malai rojeko ma
+            dhanyabad. Kausau tadha bhaye pani, mero harek din-lai ujyalo
+            banai-diyeko ma dherai-dherai dhanyabad.
+          </p>
+
+          <p>
+            Happy Valentine's Day, gorgeous. I can't wait to see you soon and
+            hold you close. Until then, know that you're always in my thoughts
+            and forever in my heart.
+          </p>
+
+          <p style="margin-top: 30px">All my love, always and forever,</p>
+        </div>
+        <div class="letter-signature">Timro Yu💕</div>
+      </div>
+    </div>
+
+    <script>
+      // Function to move the "No" button so she can't click it!
+       function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'absolute';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // Confetti celebration
+        function celebrate() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff758f', '#ffb3c1']
+            });
+            
+            // Show the love letter
+            setTimeout(() => {
+                document.getElementById('letterOverlay').style.display = 'flex';
+            }, 500);
+            
+            document.getElementById('questionArea').innerHTML = "<h2>Yay ❤️</h2>";
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        // Close the letter
+        function closeLetter() {
+            document.getElementById('letterOverlay').style.display = 'none';
+        }
+
+    </script>
+    </body>
+</html>
+   
